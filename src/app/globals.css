@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-muted-dim: var(--muted-dim);
+  --color-foreground: var(--foreground);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-accent: #a855f7;
+  --color-accent-dim: #7c3aed;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+:root {
+  --bg: #fafafa;
+  --surface: #f4f4f5;
+  --surface-alt: #e4e4e7;
+  --border: #d4d4d8;
+  --muted: #52525b;
+  --muted-dim: #3f3f46;
+  --foreground: #09090b;
+  --foreground-muted: #27272a;
+  --grid: rgba(0,0,0,0.04);
+}
+
+.dark {
+  --bg: #09090b;
+  --surface: #18181b;
+  --surface-alt: #27272a;
+  --border: #27272a;
+  --muted: #a1a1aa;
+  --muted-dim: #71717a;
+  --foreground: #fafafa;
+  --foreground-muted: #d4d4d8;
+  --grid: rgba(255,255,255,0.03);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 40px 40px;
+  color: var(--foreground);
+}
+
+::selection {
+  background: #a855f7;
+  color: #09090b;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+.scroll-hint {
+  mask-image: linear-gradient(to right, black 75%, transparent 95%);
+  -webkit-mask-image: linear-gradient(to right, black 75%, transparent 95%);
+}
+@media (min-width: 768px) {
+  .scroll-hint {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
