@@ -10,7 +10,34 @@ export default function Experience() {
             <div className="flex items-start justify-between flex-wrap gap-2">
               <div>
                 <h3 className="text-base font-medium text-foreground">
-                  Student Research Assistant (Social Service)
+                  AI &amp; Data Science Research Intern
+                </h3>
+                <p className="text-sm text-muted-dim">
+                  Laboratorio Nacional CONAHCYT en IA y Ciencia de Datos (LNC-IACD) · Ecatepec de Morelos, Mexico · Hybrid
+                </p>
+              </div>
+              <span className="text-xs text-muted-dim shrink-0">Aug 2026 – Present</span>
+            </div>
+            <ul className="mt-3 space-y-1.5">
+              <li className="text-sm text-muted leading-relaxed flex gap-3">
+                <span className="text-purple-500 shrink-0 mt-1.5">&#8226;</span>
+                Conducting research and technological development in artificial intelligence and data science.
+              </li>
+              <li className="text-sm text-muted leading-relaxed flex gap-3">
+                <span className="text-purple-500 shrink-0 mt-1.5">&#8226;</span>
+                Applying machine learning and deep learning methods to research problems, including data processing, model development, experimentation, and evaluation.
+              </li>
+              <li className="text-sm text-muted leading-relaxed flex gap-3">
+                <span className="text-purple-500 shrink-0 mt-1.5">&#8226;</span>
+                Participating in ongoing research projects within LNC-IACD.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <div className="flex items-start justify-between flex-wrap gap-2">
+              <div>
+                <h3 className="text-base font-medium text-foreground">
+                  Student Research Assistant
                 </h3>
                 <p className="text-sm text-muted-dim">Universidad de Guanajuato</p>
               </div>
@@ -19,7 +46,7 @@ export default function Experience() {
             <ul className="mt-3 space-y-1.5">
               <li className="text-sm text-muted leading-relaxed flex gap-3">
                 <span className="text-purple-500 shrink-0 mt-1.5">&#8226;</span>
-                Developing robust heart rate estimation system processing real-time video streams, delivering physiological metrics within 10 seconds for clinical validation.
+                Developed robust heart rate estimation system processing real-time video streams, delivering physiological metrics within 10 seconds for clinical validation.
               </li>
               <li className="text-sm text-muted leading-relaxed flex gap-3">
                 <span className="text-purple-500 shrink-0 mt-1.5">&#8226;</span>
@@ -27,7 +54,7 @@ export default function Experience() {
               </li>
               <li className="text-sm text-muted leading-relaxed flex gap-3">
                 <span className="text-purple-500 shrink-0 mt-1.5">&#8226;</span>
-                Engineered signal processing using band pass filters and FFT to extract heart rate signals, validated within 48-180 BPM range.
+                Engineered signal processing using band-pass filters and FFT to extract heart rate signals, validated within 48-180 BPM range.
               </li>
               <li className="text-sm text-muted leading-relaxed flex gap-3">
                 <span className="text-purple-500 shrink-0 mt-1.5">&#8226;</span>

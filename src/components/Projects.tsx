@@ -1,19 +1,82 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 
-function Img({ src, alt, className, onClick }: { src: string; alt: string; className?: string; onClick?: () => void }) {
+type LightboxImage = { src: string; alt: string; w: number; h: number };
+
+function Img({
+  src,
+  alt,
+  width,
+  height,
+  className,
+  onClick,
+}: {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  className?: string;
+  onClick?: () => void;
+}) {
   const [err, setErr] = useState(false);
   if (err) return null;
   return (
     <img
       src={src}
       alt={alt}
+      width={width}
+      height={height}
       className={className + (onClick ? " cursor-pointer" : "")}
       onError={() => setErr(true)}
       onClick={onClick}
       loading="lazy"
     />
+  );
+}
+
+function Lightbox({ image, onClose }: { image: LightboxImage; onClose: () => void }) {
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handler);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", handler);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
+
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-6"
+      role="dialog"
+      aria-modal="true"
+      aria-label={image.alt}
+      onClick={onClose}
+    >
+      <button
+        onClick={onClose}
+        className="fixed top-4 right-4 z-10 text-muted hover:text-foreground transition-colors"
+        aria-label="Close"
+      >
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+      <img
+        src={image.src}
+        alt={image.alt}
+        width={image.w}
+        height={image.h}
+        className="max-w-full max-h-full w-auto h-auto object-contain rounded-lg"
+        onClick={(e) => e.stopPropagation()}
+      />
+    </div>,
+    document.body
   );
 }
 
@@ -25,7 +88,7 @@ const projects = [
       "1st Place — Hola Mundo 2026 National Innovation Competition. Production-ready AI video analytics platform supporting 12 concurrent streams with 872ms E2E latency. Multi-model pipeline: YOLOv8 object detection, pose estimation (fall detection), and custom fine-tuned weapon detector (0.770 mAP@50). Curated 14K-image weapon dataset.",
     highlight: "1st Place — Hola Mundo 2026",
     metrics: ["12 streams", "872ms latency", "0.770 mAP@50"],
-    media: { type: "img", src: "/sentinelcv.png", alt: "SentinelCV architecture diagram" },
+    media: { type: "img", src: "/sentinelcv.png", alt: "SentinelCV architecture diagram", w: 1847, h: 915 },
     gh: "sentinelcv",
   },
   {
@@ -36,9 +99,9 @@ const projects = [
     highlight: "0.972 AUC",
     metrics: ["0.996 AUC on DeepFakeDetection", "7.72ms inference", "43.5M params"],
     gallery: [
-      { src: "https://raw.githubusercontent.com/JosueVP17/deepfake-detection-vit/main/results/plot.png", alt: "ROC curves comparing ViT, Xception, and EfficientNet", label: "ROC Curves" },
-      { src: "https://raw.githubusercontent.com/JosueVP17/deepfake-detection-vit/main/results/auc.png", alt: "AUC heatmap per manipulation method", label: "AUC per Method" },
-      { src: "https://raw.githubusercontent.com/JosueVP17/deepfake-detection-vit/main/results/robustness_evaluation.png", alt: "Robustness under JPEG compression and blur", label: "Robustness" },
+      { src: "/projects/deepfake-detection-vit/roc-curves.png", alt: "ROC curves comparing ViT, Xception, and EfficientNet", label: "ROC Curves", w: 790, h: 590 },
+      { src: "/projects/deepfake-detection-vit/auc-heatmap.png", alt: "AUC heatmap per manipulation method", label: "AUC per Method", w: 901, h: 290 },
+      { src: "/projects/deepfake-detection-vit/robustness.png", alt: "Robustness under JPEG compression and blur", label: "Robustness", w: 2100, h: 750 },
     ],
     gh: "deepfake-detection-vit",
   },
@@ -66,10 +129,10 @@ Based on the surgical nursing reference:
     highlight: "77.2% accuracy",
     metrics: ["5cm resolution", "6 classes", "Encoder-Decoder + skip"],
     gallery: [
-      { src: "https://raw.githubusercontent.com/JosueVP17/geotif-semantic-segmentation/main/images/rgb_example.png", alt: "RGB aerial image", label: "RGB" },
-      { src: "https://raw.githubusercontent.com/JosueVP17/geotif-semantic-segmentation/main/images/elevation_example.png", alt: "Elevation band", label: "Elevation" },
-      { src: "https://raw.githubusercontent.com/JosueVP17/geotif-semantic-segmentation/main/images/ground_truth.png", alt: "Ground truth segmentation", label: "Ground Truth" },
-      { src: "https://raw.githubusercontent.com/JosueVP17/geotif-semantic-segmentation/main/images/prediction.png", alt: "Model prediction", label: "Prediction" },
+      { src: "/projects/geotif-semantic-segmentation/rgb.png", alt: "RGB aerial image", label: "RGB", w: 481, h: 504 },
+      { src: "/projects/geotif-semantic-segmentation/elevation.png", alt: "Elevation band", label: "Elevation", w: 474, h: 490 },
+      { src: "/projects/geotif-semantic-segmentation/ground-truth.png", alt: "Ground truth segmentation", label: "Ground Truth", w: 697, h: 504 },
+      { src: "/projects/geotif-semantic-segmentation/prediction.png", alt: "Model prediction", label: "Prediction", w: 697, h: 504 },
     ],
     gh: "geotif-semantic-segmentation",
   },
@@ -81,25 +144,18 @@ Based on the surgical nursing reference:
     highlight: "Gatys et al. 2015",
     metrics: ["Style blending", "Color preservation", "Progress GIFs"],
     gallery: [
-      { src: "https://raw.githubusercontent.com/JosueVP17/neural-style-transfer/main/content/gothenburg.png", alt: "Content image — Gothenburg", label: "Content" },
-      { src: "https://raw.githubusercontent.com/JosueVP17/neural-style-transfer/main/styles/wave.png", alt: "Style image — The Great Wave", label: "Style" },
-      { src: "https://raw.githubusercontent.com/JosueVP17/neural-style-transfer/main/output/gothenburg-wave.png", alt: "Result — Gothenburg × Great Wave", label: "Result" },
+      { src: "/projects/neural-style-transfer/content-gothenburg.jpg", alt: "Content image — Gothenburg", label: "Content", w: 1600, h: 900 },
+      { src: "/projects/neural-style-transfer/style-wave.webp", alt: "Style image — The Great Wave", label: "Style", w: 1290, h: 867 },
+      { src: "/projects/neural-style-transfer/result-gothenburg-wave.png", alt: "Result — Gothenburg × Great Wave", label: "Result", w: 455, h: 256 },
     ],
     gh: "neural-style-transfer",
   },
 ];
 
 export default function Projects() {
-  const [lightbox, setLightbox] = useState<string | null>(null);
+  const [lightbox, setLightbox] = useState<LightboxImage | null>(null);
 
   const closeLightbox = useCallback(() => setLightbox(null), []);
-
-  useEffect(() => {
-    if (!lightbox) return;
-    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") closeLightbox(); };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [lightbox, closeLightbox]);
 
   return (
     <section id="projects" className="py-16 px-6">
@@ -128,7 +184,14 @@ export default function Projects() {
                 const m = project.media;
                 return (
                   <div className="mt-3 rounded-lg border border-border bg-surface overflow-hidden">
-                    <Img src={m.src} alt={m.alt} className="w-full object-contain max-h-96" onClick={() => setLightbox(m.src)} />
+                    <Img
+                      src={m.src}
+                      alt={m.alt}
+                      width={m.w}
+                      height={m.h}
+                      className="w-full object-contain max-h-96"
+                      onClick={() => setLightbox({ src: m.src, alt: m.alt, w: m.w, h: m.h })}
+                    />
                   </div>
                 );
               })()}
@@ -136,8 +199,12 @@ export default function Projects() {
               {project.gallery && (
                 <div className={`mt-3 grid gap-2 ${project.gallery.length === 4 ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-2 sm:grid-cols-3"}`}>
                   {project.gallery.map((img) => (
-                    <div key={img.label} className="rounded-lg border border-border bg-surface overflow-hidden cursor-pointer" onClick={() => setLightbox(img.src)}>
-                      <Img src={img.src} alt={img.alt} className="w-full aspect-[4/3] object-cover" />
+                    <div
+                      key={img.label}
+                      className="rounded-lg border border-border bg-surface overflow-hidden cursor-pointer"
+                      onClick={() => setLightbox(img)}
+                    >
+                      <Img src={img.src} alt={img.alt} width={img.w} height={img.h} className="w-full aspect-[4/3] object-cover" />
                       <div className="text-center text-xs text-muted-dim py-1 border-t border-border">
                         {img.label}
                       </div>
@@ -188,29 +255,7 @@ export default function Projects() {
         </div>
       </div>
 
-      {lightbox && (
-        <div
-          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
-          onClick={closeLightbox}
-        >
-          <button
-            onClick={closeLightbox}
-            className="absolute top-4 right-4 text-muted hover:text-foreground transition-colors"
-            aria-label="Close"
-          >
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
-          <img
-            src={lightbox}
-            alt="Enlarged view"
-            className="max-w-full max-h-full object-contain rounded-lg"
-            onClick={(e) => e.stopPropagation()}
-          />
-        </div>
-      )}
+      {lightbox && <Lightbox image={lightbox} onClose={closeLightbox} />}
     </section>
   );
 }

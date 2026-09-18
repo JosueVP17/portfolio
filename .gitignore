@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# cv source files (docx never committed)
+public/*.docx
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

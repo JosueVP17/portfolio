@@ -8,7 +8,7 @@ export default function Hero() {
   return (
     <section className="min-h-screen flex items-center justify-center px-6 pt-16">
       <div className="animate-fade-in max-w-5xl mx-auto grid md:grid-cols-[auto_1fr] gap-10 md:gap-16 items-center">
-        <div className="w-56 h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-2 border-border bg-surface-alt flex items-center justify-center mx-auto md:mx-0 shrink-0">
+        <div className="w-64 h-64 md:w-88 md:h-88 rounded-full overflow-hidden border-2 border-border bg-surface-alt flex items-center justify-center mx-auto md:mx-0 shrink-0">
           {imgError ? (
             <span className="text-7xl text-muted-dim">JV</span>
           ) : (
@@ -25,17 +25,33 @@ export default function Hero() {
             Josue Valenzuela Perez
           </h1>
           <p className="mt-1 text-lg text-muted">
-            AI/ML Engineer &bull; Computer Systems Engineering Student
+            AI/ML Engineer &bull; Computer Systems Engineering Student, Class of 2026
           </p>
           <p className="text-sm text-muted-dim">
             Universidad de Guanajuato &bull; Chalmers University of Technology
           </p>
 
+          <div className="mt-5 max-w-lg relative">
+            <div className="absolute -inset-2 bg-purple-600/25 blur-xl rounded-xl" aria-hidden="true" />
+            <div className="relative rounded-lg border border-purple-500/50 bg-surface px-5 py-4 font-mono text-sm leading-relaxed shadow-lg shadow-purple-900/20">
+              <p className="text-muted-dim text-xs">
+                <span className="text-purple-400">$</span> whoami --availability
+              </p>
+              <p className="mt-2 text-foreground font-semibold">
+                <span className="text-purple-400">&gt;</span> status: <span className="text-green-400">open</span> &middot; internship / entry-level, full-time
+              </p>
+              <p className="text-foreground font-semibold">
+                <span className="text-purple-400">&gt;</span> remote / hybrid / onsite, starts immediately
+                <span className="animate-blink text-purple-400">&#9615;</span>
+              </p>
+            </div>
+          </div>
+
           <p className="mt-5 text-sm leading-relaxed text-muted max-w-lg">
-            Computer Systems Engineering student pursuing an ML internship. Hands-on experience in
-            artificial intelligence, computer vision, data engineering, and optimization through
-            research and applied ML projects. Currently at Universidad de Guanajuato with a
-            completed exchange program at Chalmers University of Technology.
+            AI Research Intern at CONAHCYT&apos;s National AI &amp; Data Science Lab (LNC-IACD),
+            graduating from Universidad de Guanajuato in 2026 with a completed exchange at Chalmers
+            University of Technology. Hands-on experience in computer vision, deep learning, and
+            optimization through applied research and independent ML projects.
           </p>
 
           <div className="mt-4 flex flex-wrap gap-2">
